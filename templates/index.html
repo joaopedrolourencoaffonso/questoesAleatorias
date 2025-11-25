@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questões Linux</title>
+    <title>Título da página</title>
     
     <style>
         body {
@@ -95,14 +95,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>Questões para o Linux Essentials</h1>
+        <h1>Se você está vendo isso, houve um problema na chamada de config.json</h1>
         <div class="placar" id="placar">
             <p>Placar: <a id="certas">0</a>/<a id="feitas">0</a></p>
         </div>
     </div>
         
     <div class="corpo" id="minhacaixa">
-        <i><p id="enunciado">Kernel é um programa que haje como interface entre o sistema operacinal e (dentre outros componentes físicos) a memória:</p></i>
+        <i><p id="enunciado">Primeira Questão vai aqui</p></i>
         <button class="alternativa" onclick="checaResposta('a')"><p id="a">VERDADEIRO</p></button><br>
         <button class="alternativa" onclick="checaResposta('b')"><p id="b">FALSO</p></button><br>
         <button class="alternativa" onclick="checaResposta('c')"><p id="c"></p></button><br>
@@ -130,7 +130,28 @@
 
     document.addEventListener("DOMContentLoaded", function () {
         PegaQuestoes();
+        initialize();
     });
+
+    async function initialize() {
+        try {
+            // Fetch data from the server
+            const response = await fetch("http://127.0.0.1:5000/config");
+
+            // Parse the response as JSON
+            const config = await response.json();
+
+            // Configurando o título da página
+            document.title = config.title;
+
+            // Configurando o h1
+            const h1 = document.querySelector("h1");
+            h1.textContent = config.header;
+
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
 
     async function PegaQuestoes() {
         try {
@@ -139,6 +160,9 @@
 
             // Parse the response as JSON
             todasAsQuestoes = await response.json();
+
+            // popula página pela primeira vez
+            await PegaQuestao();
 
         } catch (error) {
             console.error("Error fetching data:", error);

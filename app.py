@@ -13,5 +13,11 @@ def json_data():
         data = json.load(file)
     return jsonify(data)
 
+@app.route('/config')
+def config_data():
+    with open('static\\config.json', 'r', encoding='utf-8') as file:
+        data = json.load(file)
+    return jsonify(data)
+
 if __name__ == '__main__':
     app.run(debug=True)
