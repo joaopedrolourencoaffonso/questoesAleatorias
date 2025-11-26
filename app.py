@@ -1,7 +1,7 @@
 from flask import Flask, render_template, jsonify
 import json
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='.')
 
 @app.route('/')
 def hello_moon():
