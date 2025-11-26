@@ -112,14 +112,10 @@
     </div>
     <button class="novaQuestao" onclick="PegaQuestao()">Nova questão</button>
 
-    <!--<button onclick="showElement()">Show Element</button>
-    <button onclick="hideElement()">Hide Element</button>-->
-
     <div class="box" id="box">
         Parabéns, você acertou 10 questões direto!
         <br>
-        <img src="https://upload.wikimedia.org/wikipedia/en/5/5c/Mario_by_Shigehisa_Nakaue.png">
-        <!--Essa figura foi tirada da wikimedia commons, nem vem que não tem, Nintendo-->
+        <img id="parabens" src="https://upload.wikimedia.org/wikipedia/en/5/5c/Mario_by_Shigehisa_Nakaue.png" width="250" height="300">
     </div>
 <script>
     let respostaGlobal = 'a';
@@ -147,6 +143,21 @@
             // Configurando o h1
             const h1 = document.querySelector("h1");
             h1.textContent = config.header;
+
+            // cor da página
+            document.body.style.backgroundColor = config.background_color;
+
+            // cor do placar
+            const elements = document.querySelectorAll('.placar');
+            elements.forEach(el => {
+                el.style.background = config.cor_placar;
+            });
+
+            // imagem de parabéns
+            const imgParabens = document.getElementById("parabens");
+            imgParabens.src = config.imagem_de_parabens;
+            imgParabens.width  = config.parabensWidth;
+            imgParabens.height = config.parabensHeight;
 
         } catch (error) {
             console.error("Error fetching data:", error);
