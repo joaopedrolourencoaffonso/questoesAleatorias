@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questões Linux</title>
+    <title>Título da página</title>
     
     <style>
         body {
@@ -95,14 +95,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>Questões para o Linux Essentials</h1>
+        <h1>Se você está vendo isso, houve um problema na chamada de config.json</h1>
         <div class="placar" id="placar">
             <p>Placar: <a id="certas">0</a>/<a id="feitas">0</a></p>
         </div>
     </div>
         
     <div class="corpo" id="minhacaixa">
-        <i><p id="enunciado">Kernel é um programa que haje como interface entre o sistema operacinal e (dentre outros componentes físicos) a memória:</p></i>
+        <i><p id="enunciado">Primeira Questão vai aqui</p></i>
         <button class="alternativa" onclick="checaResposta('a')"><p id="a">VERDADEIRO</p></button><br>
         <button class="alternativa" onclick="checaResposta('b')"><p id="b">FALSO</p></button><br>
         <button class="alternativa" onclick="checaResposta('c')"><p id="c"></p></button><br>
@@ -115,33 +115,83 @@
     <div class="box" id="box">
         Parabéns, você acertou 10 questões direto!
         <br>
-        <img src="https://upload.wikimedia.org/wikipedia/en/5/5c/Mario_by_Shigehisa_Nakaue.png">
-        <!--Essa figura foi tirada da wikimedia commons, nem vem que não tem, Nintendo-->
+        <img id="parabens" src="https://upload.wikimedia.org/wikipedia/en/5/5c/Mario_by_Shigehisa_Nakaue.png" width="250" height="300">
     </div>
 <script>
     let respostaGlobal = 'a';
     let totalQuestoesFeitas = 0;
     let totalQuestoesCertas = 0;
     let certasDireto = 0;
+    let todasAsQuestoes;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        PegaQuestoes();
+        initialize();
+    });
+
+    async function initialize() {
+        try {
+            // Fetch data from the server
+            const response = await fetch("https://raw.githubusercontent.com/joaopedrolourencoaffonso/questoesAleatorias/refs/heads/main/static/config.json");
+
+            // Parse the response as JSON
+            const config = await response.json();
+
+            // Configurando o título da página
+            document.title = config.title;
+
+            // Configurando o h1
+            const h1 = document.querySelector("h1");
+            h1.textContent = config.header;
+
+            // cor da página
+            document.body.style.backgroundColor = config.background_color;
+
+            // cor do placar
+            const elements = document.querySelectorAll('.placar');
+            elements.forEach(el => {
+                el.style.background = config.cor_placar;
+            });
+
+            // imagem de parabéns
+            const imgParabens = document.getElementById("parabens");
+            imgParabens.src = config.imagem_de_parabens;
+            imgParabens.width  = config.parabensWidth;
+            imgParabens.height = config.parabensHeight;
+
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
+
+    async function PegaQuestoes() {
+        try {
+            // Fetch data from the server
+            const response = await fetch("https://raw.githubusercontent.com/joaopedrolourencoaffonso/questoesAleatorias/refs/heads/main/static/questoes.json");
+
+            // Parse the response as JSON
+            todasAsQuestoes = await response.json();
+
+            // popula página pela primeira vez
+            await PegaQuestao();
+
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
 
     async function PegaQuestao() {
         try {
             document.getElementById("campoResposta").innerHTML = "";
-            //console.log(certasDireto);
-            // Fetch data from the server
-            const response = await fetch("https://raw.githubusercontent.com/joaopedrolourencoaffonso/questoesLinuxEssentials/refs/heads/main/static/questoes.json");
-            
-            // Parse the response as JSON
-            const questoes = await response.json();
 
             // Get a random question
-            const randomIndex = Math.floor(Math.random() * questoes.length);
-            const enunciado = questoes[randomIndex]['enunciado'];
-            const opcao_a = "A - " + questoes[randomIndex]['a'];
-            const opcao_b = "B - " + questoes[randomIndex]['b'];
-            const opcao_c = "C - " + questoes[randomIndex]['c'];
-            const opcao_d = "D - " + questoes[randomIndex]['d'];
-            const resposta = questoes[randomIndex]['resposta'];
+            const randomIndex = Math.floor(Math.random() * todasAsQuestoes.length);
+            const enunciado = todasAsQuestoes[randomIndex]['enunciado'];
+            const opcao_a = "A - " + todasAsQuestoes[randomIndex]['a'];
+            const opcao_b = "B - " + todasAsQuestoes[randomIndex]['b'];
+            const opcao_c = "C - " + todasAsQuestoes[randomIndex]['c'];
+            const opcao_d = "D - " + todasAsQuestoes[randomIndex]['d'];
+            const resposta = todasAsQuestoes[randomIndex]['resposta'];
 
             // Log the random question
             //console.log(resposta);
