@@ -22,8 +22,8 @@
         "enunciado": "Exemplo de questão com apenas duas alternativas",
         "a":"alternativa a",
         "b":"alternativa b",
-        "c":"alternativa c",
-        "d":"alternativa d",
-        "resposta":"d" 
+        "c":"",
+        "d":"",
+        "resposta":"a" 
     }
 ]
